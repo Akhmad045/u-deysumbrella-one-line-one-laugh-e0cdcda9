@@ -117,6 +117,22 @@ def self_test():
         print("SELF-TEST FAIL: pick does not land its turn in one exact "
               "word ('outlived')")
         return 1
+    # Three-beat structure: the pick is setup, fact, turn -- exactly
+    # three sentences, the middle one carrying the year, the last one
+    # landing the twist. A one-beat line has no turn; a four-beat line
+    # explains the joke instead of landing it.
+    sentences = [s for s in pick.split(". ") if s]
+    if len(sentences) != 3:
+        print(f"SELF-TEST FAIL: pick has {len(sentences)} sentences, "
+              f"not the three-beat setup/fact/turn shape")
+        return 1
+    if "2019" not in sentences[1]:
+        print("SELF-TEST FAIL: middle sentence does not carry the year "
+              "(the fact that sets up the turn)")
+        return 1
+    if "outlived" not in sentences[2]:
+        print("SELF-TEST FAIL: final sentence does not land the turn")
+        return 1
     # Size-band honesty: every contender is ASCII-only, so each line's
     # byte count equals its char count and the 62-140 band is exact, not
     # an artefact of multi-byte punctuation (an em dash would add 2
